@@ -8,6 +8,9 @@ Jinja2==3.1.4
 MarkupSafe==3.0.2
 packaging==24.1
 Werkzeug==3.1.0
+<<<<<<< HEAD
 flask-sqlalchemy
 psycopg2-binary
 python-dotenv
+=======
+>>>>>>> 98fa4bca30b85932b8f33f40e5c86e021cc67b98

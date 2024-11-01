@@ -2,12 +2,17 @@
 
 ARG PYTHON_VERSION=3.12.7
 
+<<<<<<< HEAD
 FROM python:${PYTHON_VERSION}-slim as builder
+=======
+FROM python:${PYTHON_VERSION}-slim
+>>>>>>> 98fa4bca30b85932b8f33f40e5c86e021cc67b98
 
 LABEL fly_launch_runtime="flask"
 
 WORKDIR /code
 
+<<<<<<< HEAD
 # Install build dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -46,3 +51,13 @@ EXPOSE 8080
 
 # Use gunicorn for production
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "--threads", "4", "--timeout", "60", "run:app"]
+=======
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+EXPOSE 8080
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=8080"]
+>>>>>>> 98fa4bca30b85932b8f33f40e5c86e021cc67b98
