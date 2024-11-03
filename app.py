@@ -15,22 +15,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Create uploads directory if it doesn't exist
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Create results directory if it doesn't exist
-os.makedirs('results', exist_ok=True)
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-def create_results_csv(phone_numbers, statuses):
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    results_filename = f'results/results_{timestamp}.csv'
-    
-    with open(results_filename, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        writer.writerow(['phone_number', 'status'])  # Header row
-        for number, status in zip(phone_numbers, statuses):
-            writer.writerow([number, status])
-    
-    return results_filename
 
 @app.route('/')
 def index():
@@ -113,22 +101,15 @@ def next_number():
     
     # Check if we've reached the end
     if current_index >= len(phone_numbers):
-        # Create results CSV when finished with actual statuses
-        results_file = create_results_csv(phone_numbers, statuses)
-        return jsonify({
-            'complete': True,
-            'progress': 100,
-            'results_file': results_file
-        })
-    
+      
+
     # Calculate progress
     progress = (current_index / len(phone_numbers)) * 100
     
     return jsonify({
         'number': phone_numbers[current_index],
         'progress': progress,
-        'remaining': len(phone_numbers) - current_index
-    })
+        'remaining': len(phone_numbers) - current_index})
 
 @app.route('/download_results/<path:filename>')
 def download_results(filename):
